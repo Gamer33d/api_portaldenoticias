@@ -12,4 +12,4 @@
 
 - banUser (Banir Usuario)
 
-- * (Todas as perms)
+- '*' (Todas as perms)
