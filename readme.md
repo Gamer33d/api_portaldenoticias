@@ -37,7 +37,7 @@
 * CRUD Notícias
 
 - [GET] / - Retorna um JSON contendo todas as notícias 
-- 
+
 - [GET] /:id - Retorna uma notícia baseado no ID
 
 // Require JWT validation
