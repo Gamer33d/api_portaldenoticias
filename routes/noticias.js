@@ -91,6 +91,7 @@ router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
     Noticia.findOne({ _id: req.params.id }).then(async (noticia) => {
 
         Users.findOne({ email: req.usuario.email }).then(async (conta) => {
+
             if (conta.banned) {
                 res.status(401).json({ error: true, message: "Você está banido!" })
             } else {
@@ -102,10 +103,8 @@ router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
 
                 const result = await verifypermission.verifyPermissions()
 
-
-
                 if (result) {
-                    const noticia = Noticia.deleteOne({ _id: req.params.id }).then(() => {
+                    Noticia.deleteOne({ _id: req.params.id }).then(() => {
                         return res.status(200).json({ error: false, message: 'Noticia deletada com sucesso' })
                     }).catch(err => {
                         return res.status(400).json({ error: true, message: 'Nao foi possivel deletar essa noticia, verifique o id' })
@@ -113,27 +112,16 @@ router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
                 } else {
                     res.status(401).json({ error: true, message: "Sem permissão para excluir essa noticia" })
                 }
-
-
             }
-
         })
-
     }).catch((e) => {
-        console.log(e)
         return res.status(404).json({ error: true, message: "Id incorreto!" })
     })
-
-
-
-
 })
 
 router.post('/cadnoticia', login.obrigatorio, (req, res) => {
 
-
     var { title, conteudo } = req.body
-
 
     if (!title || !conteudo) {
         return res.status(404).json({ error: true, message: "Não encontramos o title ou o conteudo da noticia" })
@@ -144,11 +132,21 @@ router.post('/cadnoticia', login.obrigatorio, (req, res) => {
                 res.status(401).json({ error: true, message: "Você está banido!" })
             } else {
 
-                const noticia = Noticia.create({ title: title, conteudo: conteudo, namecriador: req.usuario.name, emailcriador: req.usuario.email }, (err) => {
-                    if (err) return res.status(400).json({
-                        error: true,
-                        message: err
-                    })
+                const payload = {
+                    title: title,
+                    conteudo: conteudo,
+                    namecriador: req.usuario.name,
+                    emailcriador: req.usuario.email
+                }
+
+                Noticia.create(payload, (err) => {
+
+                    if (err) {
+                        return res.status(400).json({
+                            error: true,
+                            message: err
+                        })
+                    } 
 
                     return res.status(200).json({
                         error: false,
@@ -156,19 +154,7 @@ router.post('/cadnoticia', login.obrigatorio, (req, res) => {
                     })
                 })
             }
-
-
-
         })
-
-
-
     }
-
-
-
 })
-
-
-
-module.exports = router
+module.exports = router;
