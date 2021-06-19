@@ -18,7 +18,7 @@
  - BodyParser
  - Cors
  - DotEnv
- - Mongoose
+ - Mongooose
 
 #
 
