@@ -67,12 +67,12 @@ router.post('/login', async (req, res) => {
     var { email, password } = req.body
 
     if (!email || !password) {
-        return res.status(404).json({ error: true, message: "Email and Password Must be filled" })
+        return res.status(404).json({ error: true, message: "Email and Password Must be filled." })
     } else {
         Users.findOne({ email: email }).then(async (account) => {
 
             if (!account) {
-                return res.status(401).json({ error: true, message: "Email not Found" })
+                return res.status(401).json({ error: true, message: "Email not Found." })
             } else {
                 Cargos.findOne({ cargo: account.cargo }).then(async (role) => {
 
@@ -90,10 +90,10 @@ router.post('/login', async (req, res) => {
                                 expiresIn: "2h"
                             })
 
-                        return res.status(200).json({ error: false, message: "Successfully logged in", token: token })
+                        return res.status(200).json({ error: false, message: "Successfully logged in.", token: token })
 
                     } else {
-                        return res.status(401).json({ error: true, message: "Password Invalid" })
+                        return res.status(401).json({ error: true, message: "Password Invalid." })
                     }
                 })
             }

@@ -9,7 +9,6 @@ const Cargo = new mongoose.Schema({
         type: Array,
         required: true
     }
-
 },
 {
     timestamps: true

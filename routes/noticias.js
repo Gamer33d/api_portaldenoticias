@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
     Noticia.find({}).then((artigo) => {
 
         if (artigo.length == 0) {
-            return res.status(200).json({ error: true, message: "Não tem nenhuma noticia cadastrada!" })
+            return res.status(200).json({ error: true, message: "Não existe nenhuma noticia cadastrada!" })
         }
         return res.status(200).json({ error: false, artigo })
     })
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Noticia.findOne({ _id: req.params.id }).then((artigo) => {
         if (artigo == null) {
-            return res.status(404).json({ error: true, message: "Nenhum artigo com esse id encontrado" })
+            return res.status(404).json({ error: true, message: "Não foi encontrado nenhum artigo com o ID informado" })
         } else {
             return res.status(200).json({ error: false, artigo })
         }
@@ -38,30 +38,27 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.patch('/updatenoticia/:id', login.obrigatorio, (req, res) => {
+router.patch('/updateNews/:id', login.obrigatorio, (req, res) => {
 
 
     Noticia.findOne({ _id: req.params.id }).then((noticia) => {
-        Users.findOne({ email: req.usuario.email }).then(async (conta) => {
-            if (conta.banned) {
+        Users.findOne({ email: req.usuario.email }).then(async (account) => {
+            if (account.banned) {
                 res.status(401).json({ error: true, message: "Você está banido!" })
             } else {
-
                 const verifypermission = new Verify(
                     noticia.emailcriador,
                     req.usuario.email,
                     req.usuario.permissions,
                     'updateNews'
-
                 )
+                const permission = verifypermission.verifyPermissions()
 
-                const result = verifypermission.verifyPermissions()
-
-                if (result) {
-                    const noticia1 = Noticia.updateOne({ _id: req.params.id }, req.body, (err) => {
+                if (permission) {
+                    Noticia.updateOne({ _id: req.params.id }, req.body, (err) => {
                         if (err) return res.status(400).json({
                             error: true,
-                            message: "Ocorreu um erro ao editar essa noticia, verifique o id"
+                            message: "Ocorreu um erro ao editar a notícia, verifique o id"
                         })
 
                         return res.status(200).json({
@@ -72,27 +69,19 @@ router.patch('/updatenoticia/:id', login.obrigatorio, (req, res) => {
                 } else {
                     res.status(401).json({ error: true, message: "Sem permissão para editar essa noticia" })
                 }
-
-
             }
-
         })
-
-
     }).catch(() => {
         return res.status(404).json({ error: true, message: "Id incorreto!" })
     })
-
 })
 
-router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
-
+router.delete('/deleteNews/:id', login.obrigatorio, (req, res) => {
 
     Noticia.findOne({ _id: req.params.id }).then(async (noticia) => {
+        Users.findOne({ email: req.usuario.email }).then(async (account) => {
 
-        Users.findOne({ email: req.usuario.email }).then(async (conta) => {
-
-            if (conta.banned) {
+            if (account.banned) {
                 res.status(401).json({ error: true, message: "Você está banido!" })
             } else {
                 const verifypermission = new Verify(
@@ -101,9 +90,9 @@ router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
                     req.usuario.permissions,
                     'deleteNews')
 
-                const result = await verifypermission.verifyPermissions()
+                const permission = await verifypermission.verifyPermissions()
 
-                if (result) {
+                if (permission) {
                     Noticia.deleteOne({ _id: req.params.id }).then(() => {
                         return res.status(200).json({ error: false, message: 'Noticia deletada com sucesso' })
                     }).catch(err => {
@@ -119,16 +108,16 @@ router.delete('/deletenoticia/:id', login.obrigatorio, (req, res) => {
     })
 })
 
-router.post('/cadnoticia', login.obrigatorio, (req, res) => {
+router.post('/postNews', login.obrigatorio, (req, res) => {
 
     var { title, conteudo } = req.body
 
     if (!title || !conteudo) {
-        return res.status(404).json({ error: true, message: "Não encontramos o title ou o conteudo da noticia" })
+        return res.status(404).json({ error: true, message: "Não encontramos o título ou o conteúdo da notícia" })
     } else {
 
-        Users.findOne({ email: req.usuario.email }).then((conta) => {
-            if (conta.banned) {
+        Users.findOne({ email: req.usuario.email }).then((account) => {
+            if (account.banned) {
                 res.status(401).json({ error: true, message: "Você está banido!" })
             } else {
 
@@ -150,7 +139,7 @@ router.post('/cadnoticia', login.obrigatorio, (req, res) => {
 
                     return res.status(200).json({
                         error: false,
-                        message: 'Noticia Cadastrada'
+                        message: 'Noticia Cadastrada com sucesso'
                     })
                 })
             }

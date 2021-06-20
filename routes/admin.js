@@ -8,13 +8,13 @@ const { Verify } = require('../classes/classes')
 require('dotenv').config()
 
 
-router.post('/userban/:id', login.obrigatorio, (req, res) => {
+router.post('/banUser/:id', login.obrigatorio, (req, res) => {
     
     const verify = new Verify(null, null, req.usuario.permissions, 'banUser')
 
-    const resp = verify.verifyPermissions()
+    const response = verify.verifyPermissions();
 
-    if(resp){
+    if(response){
         Users.findOne({_id: req.params.id}).then((conta) => {
             
             if(conta.email == login.obrigatorio.email){

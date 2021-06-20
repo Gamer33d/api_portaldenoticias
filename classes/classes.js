@@ -12,7 +12,7 @@ class Verify {
 
     verifyPermissions(){
         if(this.emailcriador == this.emailuser && this.emailcriador != undefined || this.emailcriador != null){
-            return true
+            return true;
         }else{
             var permission = this.deletoredit
             var allPermPos = this.permissions.indexOf('*')
