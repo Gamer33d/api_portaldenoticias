@@ -1,9 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const login = require('../middleware/loginverify')
-require('../db/models/Users')
-const Users = mongoose.model('users')
 const mongoose = require('mongoose')
+
+const login = require('../middleware/loginverify')
+
+
+const Users = mongoose.model('users')
+require('../db/models/Users')
+
 const { Verify } = require('../classes/classes')
 require('dotenv').config()
 

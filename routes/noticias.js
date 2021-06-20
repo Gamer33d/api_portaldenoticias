@@ -29,13 +29,15 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     Noticia.findOne({ _id: req.params.id }).then((artigo) => {
-        if (artigo == null) {
-            return res.status(404).json({ error: true, message: "Não foi encontrado nenhum artigo com o ID informado" })
-        } else {
+        if (artigo) {
             return res.status(200).json({ error: false, artigo })
+           
         }
-
+    }).catch((err) => {
+        return res.status(404).json({ error: true, message: "Não foi encontrado nenhum artigo com o ID informado" })
     })
+
+    
 })
 
 router.patch('/updateNews/:id', login.obrigatorio, (req, res) => {

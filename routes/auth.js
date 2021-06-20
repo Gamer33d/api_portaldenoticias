@@ -74,6 +74,10 @@ router.post('/login', async (req, res) => {
             if (!account) {
                 return res.status(401).json({ error: true, message: "Email not Found." })
             } else {
+                if(account.banned){
+                    return res.status(401).json({ error: true, message: "You are banned!"})
+                }
+
                 Cargos.findOne({ cargo: account.cargo }).then(async (role) => {
 
                     var validatePassword = await bcrypt.compare(password, account.senha)
