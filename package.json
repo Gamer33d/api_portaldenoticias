@@ -1,0 +1,28 @@
+{
+  "name": "api_portaldenoticias",
+  "version": "2.0.0",
+  "description": "api refatorada",
+  "main": "src/server.ts",
+  "repository": "https://github.com/Gamer33d/api_portaldenoticias/",
+  "author": "Gamer33d",
+  "license": "MIT",
+  "scripts": {
+    "start": "dist/src/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only --quiet ./src/server.ts",
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^20.11.20",
+    "bcrypt": "^5.1.1",
+    "fastify": "^4.26.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  }
+}
