@@ -1,4 +1,4 @@
-import { IUser, ICreateUserRequestDTO, IUserRepository } from "../../entities/User";
+import { IUser, ICreateUserRequestDTO, IUserRepository, IUserLogged } from "../../../entities/User";
 import bcrypt from 'bcrypt'
 
 export class CreateUserUseCase{
@@ -6,7 +6,7 @@ export class CreateUserUseCase{
         private userRepository: IUserRepository
     ){}
 
-    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUser | null): Promise<IUser>{
+    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUserLogged | null): Promise<IUser>{
         let { name, email, password, roleId} = userToBeCreated
         if(!roleId) { 
             roleId = 10
@@ -37,7 +37,7 @@ export class CreateUserUseCase{
             password: hashPassword,
             roleId
         })
-
+        
         return createdUser;
 
     }

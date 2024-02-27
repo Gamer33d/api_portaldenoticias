@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserUseCase } from "./CreateUserUseCase";
-import { ICreateUserRequestDTO } from "../../entities/User";
+import { ICreateUserRequestDTO } from "../../../entities/User";
 
 export class CreateUserController {
     constructor (
@@ -11,17 +11,17 @@ export class CreateUserController {
         const { name, email, password, roleId } = req.body
         try {
             if(!name || !email || !password){
-                throw new Error('body fields name or email or password is missing.')
+                throw new Error('the body fields (name or email or password) is missing.')
             }
 
-            await this.createUserUseCase.execute({
+            const createdUser = await this.createUserUseCase.execute({
                 name,
                 email,
                 password,
                 roleId
-            }, null)
+            }, req.userLogged)
             
-            return reply.status(201).send()
+            return reply.status(201).send(createdUser)
         } catch (error) {
             return reply.status(400).send(error)
         }

@@ -1,5 +1,5 @@
-import { INewsRepository } from "../../entities/News";
+// import { INewsRepository } from "../../entities/News";
 
-export class InMemoryNewsRepository implements INewsRepository{
+// export class InMemoryNewsRepository implements INewsRepository{
     
-}
+// }

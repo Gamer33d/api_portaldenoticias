@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { CreateUserUseCase } from './CreateUserUseCase'
-import { InMemoryUserRepository } from '../../repositories/inMemory/InMemoryUserRepository'
+import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
 
 describe('create a user', () => {
     it('should to be able create a user', async () => {
@@ -77,7 +77,6 @@ describe('create a user', () => {
             id: '1',
             name: "adminFake",
             email: "dsadasd@g.com",
-            password: '12123',
             banned: false,
             roleId: 2
         })
@@ -97,7 +96,6 @@ describe('create a user', () => {
             id: '1',
             name: "adminFake",
             email: "dsadasd@g.com",
-            password: '12123',
             banned: true,
             roleId: 2
         })
