@@ -8,7 +8,7 @@ require('dotenv').config()
 
 declare module 'fastify'{
     interface FastifyRequest{
-        userLogged: IUserLogged | null
+        userLogged: IUserLogged | undefined
     }
 }
 

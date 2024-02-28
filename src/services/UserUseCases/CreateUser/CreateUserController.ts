@@ -20,8 +20,15 @@ export class CreateUserController {
                 password,
                 roleId
             }, req.userLogged)
+
+            const returnUserData = {
+                id: createdUser.id,
+                name: createdUser.name,
+                email: createdUser.email
+
+            }
             
-            return reply.status(201).send(createdUser)
+            return reply.status(201).send({ message: 'user created successfully.', data: {returnUserData}})
         } catch (error) {
             return reply.status(400).send(error)
         }

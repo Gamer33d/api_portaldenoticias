@@ -6,12 +6,11 @@ export class CreateUserUseCase{
         private userRepository: IUserRepository
     ){}
 
-    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUserLogged | null): Promise<IUser>{
+    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUserLogged | undefined): Promise<IUser>{
         let { name, email, password, roleId} = userToBeCreated
-        if(!roleId) { 
-            roleId = 10
+        if(!roleId){
+            roleId = 25
         }
-        
         //verificar se existe usuario com aquele email ou usuario
         const userAlreadyExists = await this.userRepository.findUserByEmailOrName(email, name)
         if(userAlreadyExists){
@@ -19,11 +18,11 @@ export class CreateUserUseCase{
         }
 
 
-        if(roleId<= 3){
-            if(!userLogged || userLogged.roleId != 1){
-                throw new Error("you dont have permission to create this user.")
-            }
-        }
+        // if(roleId <= 3){
+        //     if(!userLogged || userLogged.roleId != 1){
+        //         throw new Error("you dont have permission to create this user.")
+        //     }
+        // }
         
         if(userLogged?.banned){
             throw new Error("you're banned.")

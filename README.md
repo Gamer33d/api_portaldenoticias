@@ -1,10 +1,11 @@
 ### Entidades
 - [x] User
-- [x] Noticia
+- [x] News
+- [x] Roles
 
 ### UseCases
 - [x] CreateUser
-- [] SignIn
+- [x] SignIn
 - [] userCrud
 - [] createNewsCrud
 
@@ -24,7 +25,8 @@
 
 - [POST] /auth/create - Registra o usuário, e retorna um JSON, caso obtiver sucesso
 
-- [POST] /auth/login - Autentica o usuário baseado no email e senha , retorna um **JWT**
+- [POST] /auth/login - Autentica o usuário baseado no email e senha , retorna um 
+**JWT**
 
 
 * CRUD Notícias
