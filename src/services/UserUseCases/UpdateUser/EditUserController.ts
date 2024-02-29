@@ -24,7 +24,7 @@ export class EditUserController{
                 roleId
             }, id, req.userLogged)
 
-            reply.status(200).send(userEdited)
+            reply.status(200).send({data: userEdited})
         } catch (error) {
             return reply.status(400).send(error)
         }

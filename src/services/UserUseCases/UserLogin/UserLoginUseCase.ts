@@ -1,4 +1,4 @@
-import { IUserLogged, IUserLoginDTO, IUserRepository } from "../../../entities/User";
+import { IUser, IUserLoginDTO, IUserRepository } from "../../../entities/User";
 import bcrypt from 'bcrypt'
 import { SignJWT } from 'jose'
 
@@ -10,19 +10,19 @@ export class UserLoginUseCase{
 
     async execute(loginData: IUserLoginDTO){
         const { email, password } = loginData 
-        const userDataOfDatabase = await this.userRepository.findUserByEmailOrName(email, null)
+        const userDataOfDatabase = await this.userRepository.findUserByEmailOrName(email, undefined)
         if(!userDataOfDatabase){
             throw new Error("either the email or password is incorrect.")
         }
         
-        const isThePasswordNotCorrect = !bcrypt.compareSync(password, userDataOfDatabase.password)
+        const isThePasswordNotCorrect = !bcrypt.compareSync(password, userDataOfDatabase?.password || 'placeholder')
         if(isThePasswordNotCorrect){
             throw new Error('either the email or password is incorrect.')
         }
         
         
         const secretTokenSign = new TextEncoder().encode(process.env.JWT_SECRET)
-        const jwtPayload: IUserLogged = {
+        const jwtPayload: IUser = {
             id: userDataOfDatabase.id,
             name: userDataOfDatabase.name,
             email: userDataOfDatabase.email,

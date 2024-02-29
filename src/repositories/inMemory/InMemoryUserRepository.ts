@@ -4,6 +4,10 @@ import { randomUUID } from 'node:crypto'
 export class InMemoryUserRepository implements IUserRepository{
     private users: IUser[] = []
 
+    async getAllUsers(): Promise<IUser[]> {
+        return this.users
+    }
+
     async createUser(userData: ICreateUserRequestDTO): Promise<IUser> {
         const { name, email, password, roleId, avatarUrl } = userData
         const id = randomUUID()
@@ -23,7 +27,7 @@ export class InMemoryUserRepository implements IUserRepository{
 
     }
     
-    async findUserByEmailOrName(email: string, name: string): Promise<IUser | undefined> {
+    async findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | undefined> {
         const user = this.users.find(user => user.email == email || user.name == name) || undefined
         return user
         
@@ -51,5 +55,13 @@ export class InMemoryUserRepository implements IUserRepository{
         this.users[indexOfUser] = payloadEditUser
         return payloadEditUser
         
+    }
+
+    async deleteUserById(id: string): Promise<boolean> {
+        const userIndex = this.users.findIndex(user => user.id === id)
+        delete this.users[userIndex]
+        return true
+        
+
     }
 }

@@ -10,7 +10,7 @@ describe('create a user', () => {
             email: "whatever@email.com",
             password: "123",
             roleId: undefined
-        }, null)
+        }, undefined)
 
         expect(user.id).toBeDefined()
     })
@@ -22,14 +22,14 @@ describe('create a user', () => {
             email: "whathever@gmail.com",
             password: "0520",
             roleId: undefined
-        }, null)
+        }, undefined)
 
         const resultPromise = createUserUseCase.execute({
             name: "John Doe",
             email: "whathever2@gmail.com",
             password: "0520",
             roleId: undefined
-        }, null)
+        }, undefined)
 
         expect(resultPromise).rejects.toThrow()
     })
@@ -41,14 +41,14 @@ describe('create a user', () => {
             email: "whathever@gmail.com",
             password: "0520",
             roleId: undefined
-        }, null)
+        }, undefined)
 
         const resultPromise = createUserUseCase.execute({
             name: "John Doe",
             email: "whathever@gmail.com",
             password: "0520",
             roleId: undefined
-        }, null)
+        }, undefined)
 
         expect(resultPromise).rejects.toThrow()
     })
@@ -60,7 +60,7 @@ describe('create a user', () => {
             email: "whatever@email.com",
             password: "12346",
             roleId: 2
-        }, null)
+        }, undefined)
 
         expect(resultPromise).rejects.toThrow()
     })

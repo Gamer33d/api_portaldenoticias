@@ -1,22 +1,27 @@
 import fastify from "fastify";
 import jose from 'jose'
-import { authRoute } from "./routes/auth";
-import { IUserLogged } from "./entities/User";
+import { authRoutes } from "./routes/auth";
+import { IUser } from "./entities/User";
+import { usersRoutes } from "./routes/users";
 const server = fastify({})
 require('dotenv').config()
 
 
 declare module 'fastify'{
     interface FastifyRequest{
-        userLogged: IUserLogged | undefined
+        userLogged: IUser | undefined
     }
 }
 
 
 server.decorateRequest('userLogged', null)
 
-server.register(authRoute, {
+server.register(authRoutes, {
     prefix: "/auth",
+})
+
+server.register(usersRoutes, {
+    prefix: '/users'
 })
 
 server.listen({ port: 3030 }, () => {

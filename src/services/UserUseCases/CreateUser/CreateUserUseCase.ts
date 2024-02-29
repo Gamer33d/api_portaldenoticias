@@ -1,4 +1,4 @@
-import { IUser, ICreateUserRequestDTO, IUserRepository, IUserLogged } from "../../../entities/User";
+import { IUser, ICreateUserRequestDTO, IUserRepository } from "../../../entities/User";
 import bcrypt from 'bcrypt'
 
 export class CreateUserUseCase{
@@ -6,7 +6,7 @@ export class CreateUserUseCase{
         private userRepository: IUserRepository
     ){}
 
-    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUserLogged | undefined): Promise<IUser>{
+    async execute(userToBeCreated: ICreateUserRequestDTO, userLogged: IUser | undefined): Promise<IUser>{
         let { name, email, password, roleId} = userToBeCreated
         if(!roleId){
             roleId = 25
@@ -18,11 +18,11 @@ export class CreateUserUseCase{
         }
 
 
-        // if(roleId <= 3){
-        //     if(!userLogged || userLogged.roleId != 1){
-        //         throw new Error("you dont have permission to create this user.")
-        //     }
-        // }
+        if(roleId <= 3){
+            if(!userLogged || userLogged.roleId != 1){
+                throw new Error("you dont have permission to create this user.")
+            }
+        }
         
         if(userLogged?.banned){
             throw new Error("you're banned.")

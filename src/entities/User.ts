@@ -1,4 +1,4 @@
-export interface ICreateUserRequestDTO{
+export interface ICreateUserRequestDTO {
     avatarUrl?: string;
     name: string;
     email: string;
@@ -6,7 +6,7 @@ export interface ICreateUserRequestDTO{
     roleId?: number;
 }
 
-export interface IEditUserRequestDTO{
+export interface IEditUserRequestDTO {
     avatarUrl?: string;
     name?: string;
     email?: string;
@@ -16,28 +16,28 @@ export interface IEditUserRequestDTO{
 }
 
 
-export interface IUserLogged{
+export interface IUser {
     avatarUrl?: string;
     id: string;
     name: string;
     email: string;
+    password?: string;
     roleId?: number;
     banned: boolean;
 }
-export interface IUser extends IUserLogged{
-    password: string;
-}
 
-export interface IUserLoginDTO{
+
+export interface IUserLoginDTO {
     email: string;
     password: string;
 }
 
 
 export interface IUserRepository {
+    getAllUsers(): Promise<IUser[]>
     createUser(userData: ICreateUserRequestDTO): Promise<IUser>
-    findUserByEmailOrName(email: string, name: string | undefined): Promise<IUser | undefined>
+    findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | undefined>
     findUserById(id: string): Promise<IUser | undefined>
     editUser(user: IEditUserRequestDTO, id: string): Promise<IUser | undefined>
-    // deleteUserByEmail(email: string): Promise<IUser | undefined>
+    deleteUserById(id: string): Promise<boolean>
 }

@@ -1,6 +1,6 @@
 import { hashSync } from "bcrypt";
 import { IRole } from "../../../entities/Roles";
-import { IEditUserRequestDTO, IUser, IUserLogged, IUserRepository } from "../../../entities/User";
+import { IEditUserRequestDTO, IUser, IUserRepository } from "../../../entities/User";
 import { GetRoleUseCase } from "../../RolesUseCases/GetRole/GetRoleUseCase";
 
 export class EditUserUseCase {
@@ -21,6 +21,10 @@ export class EditUserUseCase {
             
             
             if(!editorRole){
+                return false
+            }
+
+            if(editorRole?.permissions.includes('manage_users') && userToEditRole?.permissions.includes('manage_users')){
                 return false
             }
 
@@ -51,9 +55,9 @@ export class EditUserUseCase {
     
     }
 
-    async execute(dataForEdit: IEditUserRequestDTO, userId: string, userLogged: IUserLogged | undefined){
+    async execute(dataForEdit: IEditUserRequestDTO, userId: string, userLogged: IUser | undefined){
         if(!userLogged){
-            throw new Error('you must be logged to edit any account.')
+            throw new Error('you must be logged to edit any user.')
 
         }
         
@@ -65,7 +69,7 @@ export class EditUserUseCase {
         }
 
         if(!editor){
-            throw new Error('you must be logged to edit any account.')
+            throw new Error('you must be logged to edit any user.')
         }
 
 

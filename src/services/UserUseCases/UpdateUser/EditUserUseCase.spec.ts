@@ -108,7 +108,7 @@ describe('edit a user', () => {
         expect(result).resolves.exist
     })
 
-    it('should not be able a moderator edit user with owner role', async () => {
+    it('should not be able a user with manage_user permission edit user with * permission', async () => {
         const userRepository = new InMemoryUserRepository()
         const editUserUseCase = new EditUserUseCase(getRoleUseCase, userRepository)
 
@@ -118,6 +118,35 @@ describe('edit a user', () => {
             password: '123456',
             avatarUrl: undefined,
             roleId: 1
+        })
+
+        let userEditor = await userRepository.createUser({
+            avatarUrl: undefined,
+            name: "Moderator",
+            email: "moderator@gmail.com",
+            password: "averystrongpassword",
+            roleId: 2,
+        })
+
+        const editPayload = {
+            email: "thisemailisimportant@gmail.com",
+            name: "Jane Doe"
+        }
+
+        const result = editUserUseCase.execute(editPayload, userToBeEdited.id, userEditor)
+        expect(result).rejects.toThrow()
+    })
+
+    it('should not be able a user with manage_users permission edit other user with manage_users permission', async () => {
+        const userRepository = new InMemoryUserRepository()
+        const editUserUseCase = new EditUserUseCase(getRoleUseCase, userRepository)
+
+        let userToBeEdited = await userRepository.createUser({
+            name: "John Doe",
+            email: "whatever@gmail.com",
+            password: '123456',
+            avatarUrl: undefined,
+            roleId: 2
         })
 
         let userEditor = await userRepository.createUser({

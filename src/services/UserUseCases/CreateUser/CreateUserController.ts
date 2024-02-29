@@ -28,7 +28,7 @@ export class CreateUserController {
 
             }
             
-            return reply.status(201).send({ message: 'user created successfully.', data: {returnUserData}})
+            return reply.status(201).send({ message: 'user created successfully.', data: returnUserData})
         } catch (error) {
             return reply.status(400).send(error)
         }

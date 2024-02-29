@@ -20,7 +20,7 @@ export class UserLoginController{
                 password
             })
             
-            return reply.status(200).send({ token: result })
+            return reply.status(200).send({ data: {token: result} })
         } catch (error) {
             return reply.status(401).send(error)
         }

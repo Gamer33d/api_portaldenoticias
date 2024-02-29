@@ -6,9 +6,13 @@
 ### UseCases
 - [x] CreateUser
 - [x] SignIn
-- [] userCrud
-- [] createNewsCrud
+- [x] userCrud
+- [] newsCrud
 
+### Add Database
+- [] RolesRepository
+- [] UsersRepository
+- [] NewsRepository
 
 
 
