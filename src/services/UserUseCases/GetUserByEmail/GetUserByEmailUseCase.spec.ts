@@ -1,11 +1,11 @@
 import { it, expect, describe } from 'vitest'
 import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-import { GetUserByIdUseCase } from './GetUserByIdUseCase'
+import { GetUserByEmailUseCase } from './GetUserByEmailUseCase'
 
 describe('get user by id', () => {
-    it('should be able to get a user by id', async () => {
+    it('should be able to get a user by email', async () => {
         const userRepository = new InMemoryUserRepository()
-        const getUserByIdUseCase = new GetUserByIdUseCase(userRepository)
+        const getUserByIdUseCase = new GetUserByEmailUseCase(userRepository)
 
         let resp = await userRepository.createUser({
             name: "John Doe",
@@ -14,7 +14,7 @@ describe('get user by id', () => {
             roleId: 4
         })
 
-        const result = getUserByIdUseCase.execute(resp.id)
+        const result = getUserByIdUseCase.execute(resp.email)
         
         expect(result).resolves.exist
         expect((await result).password).not.exist
@@ -22,8 +22,8 @@ describe('get user by id', () => {
 
     it('should not be able to get a user that does not exist.', async () => {
         const userRepository = new InMemoryUserRepository()
-        const getUserByIdUseCase = new GetUserByIdUseCase(userRepository)
-        const result = getUserByIdUseCase.execute('aundefinedid')
+        const getUserByIdUseCase = new GetUserByEmailUseCase(userRepository)
+        const result = getUserByIdUseCase.execute('aundefinedemail')
         
         expect(result).rejects.toThrow('this user does not exist')
     })

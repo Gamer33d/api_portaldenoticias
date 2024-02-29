@@ -1,11 +1,10 @@
 import fastify from "fastify";
-import jose from 'jose'
 import { authRoutes } from "./routes/auth";
 import { IUser } from "./entities/User";
 import { usersRoutes } from "./routes/users";
-const server = fastify({})
 require('dotenv').config()
 
+const server = fastify({})
 
 declare module 'fastify'{
     interface FastifyRequest{
@@ -22,6 +21,10 @@ server.register(authRoutes, {
 
 server.register(usersRoutes, {
     prefix: '/users'
+})
+
+server.get('/', (req, reply) => {
+    reply.send('hello world!')
 })
 
 server.listen({ port: 3030 }, () => {

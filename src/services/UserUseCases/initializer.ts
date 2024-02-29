@@ -3,10 +3,12 @@ import { getRoleUseCase } from "../RolesUseCases/initializer"
 
 import { CreateUserController } from "./CreateUser/CreateUserController"
 import { CreateUserUseCase } from "./CreateUser/CreateUserUseCase"
+import { DeleteUserController } from "./DeleteUser/DeleteUserController"
+import { DeleteUserUseCase } from "./DeleteUser/DeleteUserUseCase"
 import { GetAllUsersController } from "./GetAllUsers/GetAllUsersController"
 import { GetAllUsersUseCase } from "./GetAllUsers/GetAllUsersUseCase"
-import { GetUserByIdController } from "./GetUserById/GetUserByIdController"
-import { GetUserByIdUseCase } from "./GetUserById/GetUserByIdUseCase"
+import { GetUserByEmailController } from "./GetUserByEmail/GetUserByEmailController"
+import { GetUserByEmailUseCase } from "./GetUserByEmail/GetUserByEmailUseCase"
 import { EditUserController } from "./UpdateUser/EditUserController"
 import { EditUserUseCase } from "./UpdateUser/EditUserUseCase"
 
@@ -15,11 +17,11 @@ import { UserLoginUseCase } from "./UserLogin/UserLoginUseCase"
 
 const userRepository = new InMemoryUserRepository()
 
-/*createUser*/ 
+/*createUser*/
 const createUserUseCase = new CreateUserUseCase(userRepository)
 const createUserController = new CreateUserController(createUserUseCase)
 
-/*userLogin*/ 
+/*userLogin*/
 const userLoginUseCase = new UserLoginUseCase(userRepository)
 const userLoginController = new UserLoginController(userLoginUseCase)
 
@@ -32,8 +34,12 @@ const editUserController = new EditUserController(editUserUseCase)
 const getAllUsersUseCase = new GetAllUsersUseCase(userRepository)
 const getAllUsersController = new GetAllUsersController(getAllUsersUseCase)
 
-/*getUserByID*/
-const getUserByIdUseCase = new GetUserByIdUseCase(userRepository)
-const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
+/*getUserByEmail*/
+const getUserByEmailUseCase = new GetUserByEmailUseCase(userRepository)
+const getUserByEmailController = new GetUserByEmailController(getUserByEmailUseCase)
 
-export { createUserController, userLoginController, editUserController, getAllUsersController, getUserByIdController }
+/*deleteUser*/
+const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+const deleteUserController = new DeleteUserController(deleteUserUseCase)
+
+export { createUserController, userLoginController, editUserController, getAllUsersController, getUserByEmailController, deleteUserController }
