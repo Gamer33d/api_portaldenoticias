@@ -2,6 +2,7 @@ import fastify from "fastify";
 import { authRoutes } from "./routes/auth";
 import { IUser } from "./entities/User";
 import { usersRoutes } from "./routes/users";
+import { newsRoutes } from "./routes/news";
 require('dotenv').config()
 
 const server = fastify({})
@@ -21,6 +22,10 @@ server.register(authRoutes, {
 
 server.register(usersRoutes, {
     prefix: '/users'
+})
+
+server.register(newsRoutes, {
+    prefix: '/news'
 })
 
 server.get('/', (req, reply) => {

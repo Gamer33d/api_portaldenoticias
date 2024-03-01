@@ -5,6 +5,7 @@ import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryU
 import { GetRoleUseCase } from '../../RolesUseCases/GetRole/GetRoleUseCase'
 import { DeleteUserUseCase } from './DeleteUserUseCase'
 import { IUser } from '../../../entities/User'
+import { DeleteUserPermissions, VerifyRolePermissionsUseCase } from '../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
 
 
 describe('delete a user', () => {
@@ -27,10 +28,10 @@ describe('delete a user', () => {
     ]
     const rolesRepository = new InMemoryRolesRepository(rolesPreset)
     const getRoleUseCase = new GetRoleUseCase(rolesRepository)
-
     it('should be able for a user to delete themselves.', async () => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -47,7 +48,8 @@ describe('delete a user', () => {
 
     it('should be able for a user with permission * delete any users', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -72,7 +74,8 @@ describe('delete a user', () => {
 
     it('should be able for a user with permission "manage_users" delete any users without permission "*"', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -97,7 +100,8 @@ describe('delete a user', () => {
     
     it('should not be able for a user with permission "manage_users" delete a user with permission "*"', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -122,32 +126,8 @@ describe('delete a user', () => {
 
     it('should not be able for a user with permission "manage_users" delete a user with permission "manage_users"', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
-
-        let userToBeDeleted = await userRepository.createUser({
-            name: "John Doe",
-            email: "whatever@gmail.com",
-            password: '123456',
-            avatarUrl: undefined,
-            roleId: 2
-        })
-
-        let userLogged: IUser = {
-            name: "THE Moderator",
-            email: "thisemailisveryimportant@gmail.com",
-            roleId: 2,
-            banned: false,
-            id: '1'
-        }
-
-        const result = deleteUserUseCase.execute(userToBeDeleted.id, userLogged)
-        expect(result).rejects.toThrow('you dont have permission to delete this user')
-        expect(result).rejects.exist
-    })
-
-    it('should not be able for a user with permission "manage_users" delete a user with permission "manage_users"', async() => {
-        const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -172,7 +152,8 @@ describe('delete a user', () => {
 
     it('should not be able for a banned user delete themselves', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -189,9 +170,10 @@ describe('delete a user', () => {
         expect(result).rejects.exist
     })
 
-    it('should not be able for a banned user with permission "manage_news" delete other users', async() => {
+    it('should not be able for a banned user delete other users', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",
@@ -216,7 +198,8 @@ describe('delete a user', () => {
     
     it('should not be able for a non-logged user delete any user', async() => {
         const userRepository = new InMemoryUserRepository()
-        const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+        const verifyRolePermissionsUseCase = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+        const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyRolePermissionsUseCase)
 
         let userToBeDeleted = await userRepository.createUser({
             name: "John Doe",

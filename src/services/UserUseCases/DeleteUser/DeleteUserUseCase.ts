@@ -1,46 +1,15 @@
 import { IUser, IUserRepository } from "../../../entities/User";
 import { GetRoleUseCase } from "../../RolesUseCases/GetRole/GetRoleUseCase";
+import { VerifyRolePermissionsUseCase } from "../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase";
 
 export class DeleteUserUseCase{
     constructor(
-        private getRoleUseCase: GetRoleUseCase,
-        private usersRepository: IUserRepository
+        private usersRepository: IUserRepository,
+        private verifyRolePermissionsUseCase: VerifyRolePermissionsUseCase,
     ){}
+    
+    
 
-    private async checkPermissions(editor: IUser, userToDelete: IUser){
-        if(editor.banned){
-            return false
-        }
-        
-        if(editor.id === userToDelete.id){
-            return true
-        }
-        
-        if(editor.id !== userToDelete.id && editor.roleId){
-            const editorRole = await this.getRoleUseCase.execute(editor.roleId);
-            const userToDeleteRole = await this.getRoleUseCase.execute(userToDelete.roleId || NaN);
-            
-            if(editorRole?.permissions.includes('*')){
-                return true;
-            }
-
-            if(editorRole?.permissions.includes('manage_users') && userToDeleteRole?.permissions.includes('manage_users')){
-                return false
-            }
-
-            if(editorRole?.permissions.includes('manage_users') && !userToDeleteRole?.permissions.includes('*')){   
-                return true;
-            }
-
-            if(editorRole?.permissions.includes('manage_users') && !userToDeleteRole){
-                return true;
-            }
-
-            
-            return false;
-            
-        }
-    }
 
     async execute(id: string, userLogged: IUser | undefined){
         const userToDelete = await this.usersRepository.findUserById(id)
@@ -52,7 +21,7 @@ export class DeleteUserUseCase{
             throw new Error('you must be logged to delete any user')
         }
 
-        const isUserNotAuthorizedToDelete = ! await this.checkPermissions(userLogged, userToDelete)
+        const isUserNotAuthorizedToDelete = !await this.verifyRolePermissionsUseCase.execute(userLogged, userToDelete)
         if(isUserNotAuthorizedToDelete){
             throw new Error('you dont have permission to delete this user.')
         }

@@ -27,10 +27,11 @@
 
 * Authentication Routes
 
-- [POST] /auth/create - Registra o usuário, e retorna um JSON, caso obtiver sucesso
-
 - [POST] /auth/login - Autentica o usuário baseado no email e senha , retorna um 
 **JWT**
+
+* CRUD Users
+
 
 
 * CRUD Notícias

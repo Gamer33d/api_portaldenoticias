@@ -9,11 +9,12 @@ import { GetAllUsersController } from "./GetAllUsers/GetAllUsersController"
 import { GetAllUsersUseCase } from "./GetAllUsers/GetAllUsersUseCase"
 import { GetUserByEmailController } from "./GetUserByEmail/GetUserByEmailController"
 import { GetUserByEmailUseCase } from "./GetUserByEmail/GetUserByEmailUseCase"
-import { EditUserController } from "./UpdateUser/EditUserController"
-import { EditUserUseCase } from "./UpdateUser/EditUserUseCase"
+import { EditUserController } from "./EditUser/EditUserController"
+import { EditUserUseCase } from "./EditUser/EditUserUseCase"
 
 import { UserLoginController } from "./UserLogin/UserLoginController"
 import { UserLoginUseCase } from "./UserLogin/UserLoginUseCase"
+import { DeleteUserPermissions, EditUserPermissions, VerifyRolePermissionsUseCase } from "../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase"
 
 const userRepository = new InMemoryUserRepository()
 
@@ -26,7 +27,8 @@ const userLoginUseCase = new UserLoginUseCase(userRepository)
 const userLoginController = new UserLoginController(userLoginUseCase)
 
 /*editUser */
-const editUserUseCase = new EditUserUseCase(getRoleUseCase, userRepository)
+const verifyEditRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
+const editUserUseCase = new EditUserUseCase(verifyEditRolePermission, userRepository)
 const editUserController = new EditUserController(editUserUseCase)
 
 /*getAllUser*/
@@ -39,7 +41,8 @@ const getUserByEmailUseCase = new GetUserByEmailUseCase(userRepository)
 const getUserByEmailController = new GetUserByEmailController(getUserByEmailUseCase)
 
 /*deleteUser*/
-const deleteUserUseCase = new DeleteUserUseCase(getRoleUseCase, userRepository)
+const verifyDeleteRolePermission = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyDeleteRolePermission)
 const deleteUserController = new DeleteUserController(deleteUserUseCase)
 
 export { createUserController, userLoginController, editUserController, getAllUsersController, getUserByEmailController, deleteUserController }
