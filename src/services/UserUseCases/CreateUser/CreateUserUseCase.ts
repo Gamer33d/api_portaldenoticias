@@ -18,11 +18,11 @@ export class CreateUserUseCase{
         }
 
 
-        // if(roleId <= 3){
-        //     if(!userLogged || userLogged.roleId != 1){
-        //         throw new Error("you dont have permission to create this user.")
-        //     }
-        // }
+        if(roleId <= 3){
+            if(!userLogged || userLogged.roleId != 1){
+                throw new Error("you dont have permission to create this user.")
+            }
+        }
         
         if(userLogged?.banned){
             throw new Error("you're banned.")
