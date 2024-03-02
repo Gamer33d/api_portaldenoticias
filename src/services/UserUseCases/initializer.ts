@@ -27,7 +27,7 @@ const userLoginUseCase = new UserLoginUseCase(userRepository)
 const userLoginController = new UserLoginController(userLoginUseCase)
 
 /*editUser */
-const verifyEditRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
+const verifyEditRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(), getRoleUseCase)
 const editUserUseCase = new EditUserUseCase(verifyEditRolePermission, userRepository)
 const editUserController = new EditUserController(editUserUseCase)
 
@@ -41,7 +41,7 @@ const getUserByEmailUseCase = new GetUserByEmailUseCase(userRepository)
 const getUserByEmailController = new GetUserByEmailController(getUserByEmailUseCase)
 
 /*deleteUser*/
-const verifyDeleteRolePermission = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(getRoleUseCase))
+const verifyDeleteRolePermission = new VerifyRolePermissionsUseCase(new DeleteUserPermissions(), getRoleUseCase)
 const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyDeleteRolePermission)
 const deleteUserController = new DeleteUserController(deleteUserUseCase)
 

@@ -21,6 +21,7 @@ model User {
   roleId    Int
   banned    Boolean
   avatarUrl String
+  News      News[]
 
   @@map("users")
 }
@@ -38,6 +39,8 @@ model News {
   title       String
   description String
   content     String
+  userId      String
+  author      User   @relation(fields: [userId], references: [id])
 
   @@map("news")
 }

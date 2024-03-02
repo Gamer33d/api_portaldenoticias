@@ -4,10 +4,9 @@
 - [x] Roles
 
 ### UseCases
-- [x] CreateUser
-- [x] SignIn
 - [x] userCrud
-- [] newsCrud
+- [x] SignIn
+- [x] newsCrud
 
 ### Add Database
 - [] RolesRepository

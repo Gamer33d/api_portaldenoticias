@@ -7,7 +7,7 @@
   "author": "Gamer33d",
   "license": "MIT",
   "scripts": {
-    "start": "dist/src/server.js",
+    "start": "node dist/src/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --quiet ./src/server.ts",
     "build": "tsc",
     "test": "vitest"

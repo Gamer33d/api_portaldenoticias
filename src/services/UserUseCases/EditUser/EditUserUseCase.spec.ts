@@ -26,10 +26,11 @@ describe('edit a user', () => {
     ]
     const rolesRepository = new InMemoryRolesRepository(rolesPreset)
     const getRoleUseCase = new GetRoleUseCase(rolesRepository)
+    const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(), getRoleUseCase)
+
 
     it('should be able for a user to edit themselves.', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -52,7 +53,6 @@ describe('edit a user', () => {
 
     it('should be able a user with permission edit other users', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -83,7 +83,6 @@ describe('edit a user', () => {
 
     it('should be able for the owner to edit all users', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -114,7 +113,6 @@ describe('edit a user', () => {
 
     it('should not be able a user with manage_user permission edit user with * permission', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -144,7 +142,6 @@ describe('edit a user', () => {
 
     it('should not be able a user with manage_users permission edit other user with manage_users permission', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -174,7 +171,6 @@ describe('edit a user', () => {
 
     it('should not be able a banned user edit themselves', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let user = await userRepository.createUser({
@@ -198,7 +194,6 @@ describe('edit a user', () => {
     
     it('should not be able a banned user edit some user', async () => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -230,7 +225,6 @@ describe('edit a user', () => {
 
     it('should not be able for a non-logged-in user to edit other users.', async() => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({
@@ -252,7 +246,6 @@ describe('edit a user', () => {
 
     it('should not be able edit a non Owner user edit roleId <= 2', async() => {
         const userRepository = new InMemoryUserRepository()
-        const verifyRolePermission = new VerifyRolePermissionsUseCase(new EditUserPermissions(getRoleUseCase))
         const editUserUseCase = new EditUserUseCase(verifyRolePermission, userRepository)
 
         let userToBeEdited = await userRepository.createUser({

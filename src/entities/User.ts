@@ -38,6 +38,6 @@ export interface IUserRepository {
     createUser(userData: ICreateUserRequestDTO): Promise<IUser>
     findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | undefined>
     findUserById(id: string): Promise<IUser | undefined>
-    editUser(user: IEditUserRequestDTO, id: string): Promise<IUser | undefined>
+    editUser(user: IEditUserRequestDTO, id: string): Promise<IUser>
     deleteUserById(id: string): Promise<boolean>
 }

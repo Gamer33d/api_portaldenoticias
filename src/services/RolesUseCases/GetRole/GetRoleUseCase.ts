@@ -10,7 +10,7 @@ export class GetRoleUseCase {
             roleId = Number(roleId)
         }
         if(!roleId){
-            throw new Error('invalid id')
+            throw new Error('invalid role id.')
         }
 
         const role = await this.rolesRepository.getRoleById(roleId)

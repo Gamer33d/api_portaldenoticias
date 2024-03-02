@@ -28,7 +28,6 @@ export class AuthMiddleware {
             }
 
         } catch (error) {
-            console.log(error)
             return reply.status(401).send({ message: "authentication failed" })
         }
 

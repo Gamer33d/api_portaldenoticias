@@ -21,7 +21,7 @@ const rolesPreset: IRole[] = [
 ]
 
 const rolesRepository = new InMemoryRolesRepository(rolesPreset)
-const getRoleUseCase = new GetRoleUseCase(rolesRepository, )
+const getRoleUseCase = new GetRoleUseCase(rolesRepository)
 
 
 export { getRoleUseCase }

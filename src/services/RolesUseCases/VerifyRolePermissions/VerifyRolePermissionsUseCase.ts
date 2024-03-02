@@ -1,18 +1,18 @@
+import { INews } from "../../../entities/News"
 import { IEditUserRequestDTO, IUser } from "../../../entities/User"
 import { GetRoleUseCase } from "../GetRole/GetRoleUseCase"
 
 interface IPermissionsToVerify {
-    verify(userLogged: IUser, targetUser?: IUser, data?: any): Promise<boolean>
+    verify(...args: any[]): Promise<boolean>
 }
 /*User Permissions*/
 
 export class DeleteUserPermissions implements IPermissionsToVerify{
-    constructor(
-        private getRoleUseCase: GetRoleUseCase
-    ){}
 
-    async verify(userDeletor: IUser, userToDelete: IUser): Promise<boolean>{
-        if(!userDeletor || !userToDelete || !this.getRoleUseCase){
+
+    async verify(getRoleUseCase: GetRoleUseCase, ...args: any[]): Promise<boolean>{
+        const [userDeletor, userToDelete]  = args
+        if(!userDeletor || !userToDelete || !getRoleUseCase){
             throw new Error('the params userDeletor or userToDelete or getRoleUseCase is missing.')
         }
         if(userDeletor.banned){
@@ -24,8 +24,8 @@ export class DeleteUserPermissions implements IPermissionsToVerify{
         }
         
         if(userDeletor.id !== userToDelete.id && userDeletor.roleId){
-            const userDeletorRole = await this.getRoleUseCase.execute(userDeletor.roleId);
-            const userToDeleteRole = await this.getRoleUseCase.execute(userToDelete.roleId || NaN);
+            const userDeletorRole = await getRoleUseCase.execute(userDeletor.roleId);
+            const userToDeleteRole = await getRoleUseCase.execute(userToDelete.roleId || NaN);
             
             if(userDeletorRole?.permissions.includes('*')){
                 return true;
@@ -54,12 +54,10 @@ export class DeleteUserPermissions implements IPermissionsToVerify{
 }
 
 export class EditUserPermissions implements IPermissionsToVerify{
-    constructor(
-        private getRoleUseCase: GetRoleUseCase
-    ){}
 
-    async verify(editorUser: IUser, userToEdit: IUser, dataForEdit: IEditUserRequestDTO): Promise<boolean> {
-        if(!editorUser || !userToEdit || !this.getRoleUseCase || !dataForEdit){
+    async verify(getRoleUseCase: GetRoleUseCase, ...args: any[]): Promise<boolean>{
+        const [editorUser, userToEdit, dataForEdit] = args
+        if(!editorUser || !userToEdit || !getRoleUseCase || !dataForEdit){
             throw new Error('the params userDeletor or userToDelete or getRoleUseCase or dataForEdit is missing.')
         }
 
@@ -68,8 +66,8 @@ export class EditUserPermissions implements IPermissionsToVerify{
         }
         
         if(editorUser.id !== userToEdit.id && editorUser.roleId){
-            const editorRole = await this.getRoleUseCase.execute(editorUser.roleId);
-            const userToEditRole = await this.getRoleUseCase.execute(userToEdit.roleId || NaN);
+            const editorRole = await getRoleUseCase.execute(editorUser.roleId);
+            const userToEditRole = await getRoleUseCase.execute(userToEdit.roleId || NaN);
             
             
             if(!editorRole){
@@ -111,12 +109,10 @@ export class EditUserPermissions implements IPermissionsToVerify{
 
 /*News Permissions*/
 export class CreateNewsPermissions implements IPermissionsToVerify{
-    constructor(
-        private getRoleUseCase: GetRoleUseCase
-    ){}
     
-    async verify(userLogged: IUser): Promise<boolean> {
-        const userRole = await this.getRoleUseCase.execute(userLogged.roleId || NaN);
+    async verify(getRoleUseCase: GetRoleUseCase, ...args: any[]): Promise<boolean>{
+        const [userLogged] = args
+        const userRole = await getRoleUseCase.execute(userLogged.roleId || NaN);
         if(!userRole){
             return false
         }
@@ -137,13 +133,65 @@ export class CreateNewsPermissions implements IPermissionsToVerify{
     }
 }
 
+export class EditNewsPermissions implements IPermissionsToVerify{
+    async verify(getRoleUseCase: GetRoleUseCase, ...args: any[]): Promise<boolean>{
+        const [userLogged, originalNews] = args
+        const userRole = await getRoleUseCase.execute(userLogged.roleId || NaN);
+        if(!originalNews){
+            throw new Error('the param originalNews not provided')
+        }
+        if(!userRole){
+            return false
+        }
+
+        if(userRole.permissions.includes('*')){
+            return true
+        }
+        if(userRole.permissions.includes('manage_your_news') && userLogged.id == originalNews.userId){
+            return true
+        }
+
+        if(userRole.permissions.includes('manage_all_news')){
+            return true
+        }
+        return false
+    }
+}
+
+export class DeleteNewsPermissions implements IPermissionsToVerify{
+    async verify(getRoleUseCase: GetRoleUseCase, ...args: any ): Promise<boolean>{
+        const [userLogged, news] = args
+        const userRole = await getRoleUseCase.execute(userLogged.roleId || NaN);
+        if(!news){
+            throw new Error('the param originalNews not provided')
+        }
+        if(!userRole){
+            return false
+        }
+
+        if(userRole.permissions.includes('*')){
+            return true
+        }
+        if(userRole.permissions.includes('manage_your_news') && userLogged.id == news.userId){
+            return true
+        }
+
+        if(userRole.permissions.includes('manage_all_news')){
+            return true
+        }
+
+        return false
+    }
+}
+
 export class VerifyRolePermissionsUseCase{
     constructor(
-        private permissionsToVerify: IPermissionsToVerify
+        private permissionsToVerify: IPermissionsToVerify,
+        private getRoleUseCase: GetRoleUseCase
     ){}
 
-    public async execute(userLogged: IUser, targetUser?: IUser, data?: any): Promise<boolean>{
-        const isAllowed = await this.permissionsToVerify.verify(userLogged, targetUser, data)
+    public async execute(...args: any[]): Promise<boolean>{
+        const isAllowed = await this.permissionsToVerify.verify(this.getRoleUseCase, ...args)
         return isAllowed
     }
 }

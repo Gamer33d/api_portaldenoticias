@@ -28,7 +28,7 @@ describe('create a news', async() => {
     ]
     const rolesRepository = new InMemoryRolesRepository(rolesPreset)
     const getRoleUseCase = new GetRoleUseCase(rolesRepository)
-    const verifyRolePermission = new VerifyRolePermissionsUseCase(new CreateNewsPermissions(getRoleUseCase))
+    const verifyRolePermission = new VerifyRolePermissionsUseCase(new CreateNewsPermissions(), getRoleUseCase)
 
     it('should be able a user with the permission "manage_your_news" to create a news', async() => {
         const userRepository = new InMemoryUserRepository()
@@ -43,6 +43,7 @@ describe('create a news', async() => {
         })
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "The JS is amazing!",
             description: "A brief description of the Javascript Language",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -66,6 +67,7 @@ describe('create a news', async() => {
         })
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "The JS is amazing!",
             description: "A brief description of the Javascript Language",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -89,6 +91,7 @@ describe('create a news', async() => {
         })
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "The JS is amazing!",
             description: "A brief description of the Javascript Language",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -114,6 +117,7 @@ describe('create a news', async() => {
         user.banned = true
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "The JS is amazing!",
             description: "A brief description of the Javascript Language",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -129,6 +133,7 @@ describe('create a news', async() => {
         const createNewsUseCase = new CreateNewsUseCase(newsRepository, verifyRolePermission) 
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: '1',
             title: "The JS is amazing!",
             description: "A brief description of the Javascript Language",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -152,6 +157,7 @@ describe('create a news', async() => {
         })
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "The JS is amazing!",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lectus nulla, volutpat non erat id, malesuada viverra ipsum. Aenean nec volutpat lacus. Sed quis tempus augue. Aenean erat sapien,",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           
@@ -173,6 +179,7 @@ describe('create a news', async() => {
         })
 
         const newsPayload: ICreateNewsRequestDTO = {
+            userId: user.id,
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. abcd",
             description: "An amazing description",
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt tincidunt velit. Nunc vel feugiat dui, nec rutrum tortor. Ut eleifend erat mi, ut interdum velit egestas sit amet. Morbi tempus hendrerit molestie. Quisque neque felis, fermentum et lectus quis, efficitur mollis ex. Duis vulputate arcu et dolor viverra accumsan porta in nisi. Proin in ultrices magna, in consectetur sapien. Proin vitae nibh mi. Nunc vitae leo faucibus, porta risus eget, commodo ligula. Ut interdum mauris ut laoreet facilisis. Aliquam semper posuere bibendum. Etiam et lobortis justo."           

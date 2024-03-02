@@ -22,7 +22,7 @@ server.register(authRoutes, {
 
 server.register(usersRoutes, {
     prefix: '/users'
-})
+})  
 
 server.register(newsRoutes, {
     prefix: '/news'

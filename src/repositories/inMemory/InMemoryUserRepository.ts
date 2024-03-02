@@ -38,7 +38,7 @@ export class InMemoryUserRepository implements IUserRepository{
         return user
     }
 
-    async editUser(userEditData: IEditUserRequestDTO, idOfUserToEdit: string): Promise<IUser | undefined> {
+    async editUser(userEditData: IEditUserRequestDTO, idOfUserToEdit: string): Promise<IUser> {
         const indexOfUser = this.users.findIndex(user => user.id == idOfUserToEdit)
         const userInDb = this.users[indexOfUser]
         const payloadEditUser: IUser = {
@@ -59,7 +59,7 @@ export class InMemoryUserRepository implements IUserRepository{
 
     async deleteUserById(id: string): Promise<boolean> {
         const userIndex = this.users.findIndex(user => user.id === id)
-        delete this.users[userIndex]
+        this.users.splice(userIndex, 1)
         return true
         
 

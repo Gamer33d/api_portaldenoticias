@@ -1,6 +1,5 @@
 import { ICreateNewsRequestDTO, INewsRepository } from "../../../entities/News";
 import { IUser } from "../../../entities/User";
-import { GetRoleUseCase } from "../../RolesUseCases/GetRole/GetRoleUseCase";
 import { VerifyRolePermissionsUseCase } from "../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase";
 
 export class CreateNewsUseCase{
@@ -35,7 +34,8 @@ export class CreateNewsUseCase{
         const newsData = this.newsRepository.createNews({
             title,
             description,
-            content
+            content,
+            userId: userLogged.id
         })
 
         return newsData
