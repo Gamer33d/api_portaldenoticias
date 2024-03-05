@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ICreateNewsRequestDTO, IEditNewsRequestDTO } from "../entities/News";
 import { AuthMiddleware } from "../middleware/authMiddleware";
-import { createNewsController, deleteNewsController, editNewsController, getAllNewsController, getNewsByIdController } from "../services/NewsUseCases/initializer";
+import { createNewsController, deleteNewsController, editNewsController, getAllNewsController, getNewsByIdController, getUserNewsController } from "../services/NewsUseCases/initializer";
 
 export async function newsRoutes(fastify: FastifyInstance) {
     const authMiddleware = new AuthMiddleware()
@@ -12,6 +12,10 @@ export async function newsRoutes(fastify: FastifyInstance) {
 
     fastify.get<{ Params: { id: string } }>('/:id', async (req, reply) => {
         return getNewsByIdController.handler(req, reply)
+    })
+
+    fastify.get<{ Params: {id: string }}>('/user/:id', async (req, reply) => {
+        return getUserNewsController.handler(req, reply)
     })
 
 

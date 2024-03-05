@@ -12,6 +12,8 @@ import { GetAllNewsController } from "./GetAllNews/GetAllNewsController";
 import { GetAllNewsUseCase } from "./GetAllNews/GetAllNewsUseCase";
 import { GetNewsByIdController } from "./GetNewsById/GetNewsByIdController";
 import { GetNewsByIdUseCase } from "./GetNewsById/GetNewsByIdUseCase";
+import { GetUserNewsController } from "./GetUserNews/GetUserNewsController";
+import { GetUserNewsUseCase } from "./GetUserNews/GetUserNewsUseCase";
 
 const newsRepository = new PrismaNewsRepository()
 
@@ -33,9 +35,13 @@ const getAllNewsController = new GetAllNewsController(getAllNewsUseCase)
 const getNewsByIdUseCase = new GetNewsByIdUseCase(newsRepository)
 const getNewsByIdController = new GetNewsByIdController(getNewsByIdUseCase) 
 
+/*get news by user id*/
+const getUserNewsUseCase = new GetUserNewsUseCase(newsRepository)
+const getUserNewsController = new GetUserNewsController(getUserNewsUseCase)
+
 /*delete news */
 const verifyDeletePermissions = new VerifyRolePermissionsUseCase(new DeleteNewsPermissions(), getRoleUseCase)
 const deleteNewsUseCase = new DeleteNewsUseCase(newsRepository, verifyDeletePermissions)
 const deleteNewsController = new DeleteNewsController(deleteNewsUseCase)
 
-export { createNewsController, editNewsController, getAllNewsController, getNewsByIdController, deleteNewsController }
+export { createNewsController, editNewsController, getAllNewsController, getNewsByIdController, getUserNewsController, deleteNewsController }

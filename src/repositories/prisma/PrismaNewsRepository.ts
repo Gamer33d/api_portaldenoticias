@@ -17,6 +17,16 @@ export class PrismaNewsRepository implements INewsRepository{
         return news
     }
 
+    async getNewsByUserId(userId: string): Promise<INews[]> {
+        const news = await prisma.news.findMany({
+            where: {
+                userId
+            }
+        })
+
+        return news
+    }
+
     async createNews(data: ICreateNewsRequestDTO): Promise<INews> {
         try {
             const newsCreated = await prisma.news.create({

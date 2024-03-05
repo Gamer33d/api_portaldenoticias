@@ -12,7 +12,7 @@ export interface IEditUserRequestDTO {
     email?: string;
     password?: string;
     roleId?: number;
-    banned?: boolean
+    banned?: boolean;
 }
 
 
@@ -24,7 +24,6 @@ export interface IUser {
     password?: string;
     roleId?: number | null;
     banned: boolean;
-    News?: []
 }
 
 

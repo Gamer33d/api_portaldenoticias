@@ -11,6 +11,17 @@ export class InMemoryNewsRepository implements INewsRepository{
         const newsData = this.news.find(news => news.id == id) || null
         return newsData
     }
+
+    async getNewsByUserId(userId: string): Promise<INews[]> {
+        let newsData: INews[] = []
+        for (let i = 0; i < this.news.length; i++) {
+            if(this.news[i].userId === userId){
+                newsData.push(this.news[i])
+            }
+        }
+
+        return newsData
+    }
     
     async createNews(newsData: ICreateNewsRequestDTO): Promise<INews> {
         const { title, content, description, userId} = newsData

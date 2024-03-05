@@ -31,14 +31,12 @@ export class CreateNewsUseCase{
             throw new Error('you dont have permission to create a news')
         }
         
-
-        const newsData = this.newsRepository.createNews({
+        const newsData = await this.newsRepository.createNews({
             title,
             description,
             content,
             userId: userLogged.id
         })
-
         return newsData
     }   
 }

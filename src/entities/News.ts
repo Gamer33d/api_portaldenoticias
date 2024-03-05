@@ -23,6 +23,7 @@ export interface INews {
 export interface INewsRepository {
     getAllNews(): Promise<INews[]>
     findNewsById(id: number): Promise<INews | null>
+    getNewsByUserId(userId: string): Promise<INews[]>;
     createNews(newsData: ICreateNewsRequestDTO): Promise<INews>
     editNewsById(id: number, editPayload: IEditNewsRequestDTO): Promise<INews>
     deleteNewsById(id: number): Promise<boolean>
