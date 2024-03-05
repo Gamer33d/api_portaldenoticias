@@ -9,6 +9,7 @@ export class GetAllUsersUseCase{
         let arrayOfUsers = await this.userRepository.getAllUsers()
         for (let index = 0; index < arrayOfUsers.length; index++) {
             delete arrayOfUsers[index].password
+            arrayOfUsers[index].email = ''
         }
 
         return arrayOfUsers

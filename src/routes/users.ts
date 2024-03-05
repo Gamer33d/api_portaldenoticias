@@ -10,7 +10,7 @@ export async function usersRoutes(fastify: FastifyInstance){
         return getAllUsersController.handler(req, reply)
     });
 
-    fastify.get<{ Params: { email: string } }>('/:id', (req, reply) => {
+    fastify.get<{ Params: { email: string } }>('/:email', (req, reply) => {
         return getUserByEmailController.handler(req, reply)
     })
 
