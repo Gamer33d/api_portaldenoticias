@@ -1,8 +1,7 @@
-import { InMemoryRolesRepository } from "../../../repositories/inMemory/InMemoryRolesRepository";
-import { IRole } from "../../../entities/Roles";
-import { expect, describe, it } from "vitest";
-import { GetRoleUseCase } from "./GetRoleUseCase";
-
+import { IRole } from "../../../src/entities/Roles";
+import { InMemoryRolesRepository } from "../../../src/repositories/inMemory/InMemoryRolesRepository";
+import { GetRoleUseCase } from "../../../src/services/RolesUseCases/GetRole/GetRoleUseCase";
+import { describe, it, expect } from 'vitest'
 
 describe('get a role', () => {
     const rolesPreset: IRole[] = [
@@ -37,8 +36,9 @@ describe('get a role', () => {
         const getRoleUseCase = new GetRoleUseCase(inMemoryRoles);
         const result = getRoleUseCase.execute(5);
 
-        
-        expect(result).resolves.toBeTypeOf('undefined')
+
+        expect(result).resolves.empty
+        expect(result).resolves.toBe(null)
     })
 
     it('should not be able to get a role with an roleId that is not of type number.', () => {

@@ -6,8 +6,8 @@ export class InMemoryRolesRepository implements IRolesRepository{
         this.roles = presetRoles
     }
 
-    async getRoleById(id: number): Promise<IRole | undefined> {
-        const role = this.roles.find(role => role.id == id)
+    async getRoleById(id: number): Promise<IRole | null> {
+        const role = this.roles.find(role => role.id == id) || null
         return role
     }
 }

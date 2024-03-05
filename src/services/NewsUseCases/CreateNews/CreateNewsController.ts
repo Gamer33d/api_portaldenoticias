@@ -17,7 +17,8 @@ export class CreateNewsController {
             const newsCreated = await this.createNewsUseCase.execute({
                 title,
                 description,
-                content
+                content,
+                userId: 'will be setted in use case'
             }, req.userLogged)
 
             return reply.status(201).send({data: newsCreated})

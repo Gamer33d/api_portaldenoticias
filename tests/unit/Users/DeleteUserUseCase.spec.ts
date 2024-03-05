@@ -1,12 +1,11 @@
-import { it, describe, expect } from 'vitest'
-import { IRole } from '../../../entities/Roles'
-import { InMemoryRolesRepository } from '../../../repositories/inMemory/InMemoryRolesRepository'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-import { GetRoleUseCase } from '../../RolesUseCases/GetRole/GetRoleUseCase'
-import { DeleteUserUseCase } from './DeleteUserUseCase'
-import { IUser } from '../../../entities/User'
-import { DeleteUserPermissions, VerifyRolePermissionsUseCase } from '../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
-
+import { IRole } from '../../../src/entities/Roles'
+import { IUser } from '../../../src/entities/User'
+import { InMemoryRolesRepository } from '../../../src/repositories/inMemory/InMemoryRolesRepository'
+import { DeleteUserUseCase } from '../../../src/services/UserUseCases/DeleteUser/DeleteUserUseCase'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { GetRoleUseCase } from '../../../src/services/RolesUseCases/GetRole/GetRoleUseCase'
+import { VerifyRolePermissionsUseCase, DeleteUserPermissions } from '../../../src/services/RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
+import { describe, it, expect } from 'vitest'
 
 describe('delete a user', () => {
     const rolesPreset: IRole[] = [

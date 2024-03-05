@@ -1,4 +1,5 @@
 import { InMemoryNewsRepository } from "../../repositories/inMemory/InMemoryNewsRepository";
+import { PrismaNewsRepository } from "../../repositories/prisma/PrismaNewsRepository";
 import { CreateNewsPermissions, DeleteNewsPermissions, EditNewsPermissions, VerifyRolePermissionsUseCase } from "../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase";
 import { getRoleUseCase } from "../RolesUseCases/initializer";
 import { CreateNewsController } from "./CreateNews/CreateNewsController";
@@ -12,8 +13,7 @@ import { GetAllNewsUseCase } from "./GetAllNews/GetAllNewsUseCase";
 import { GetNewsByIdController } from "./GetNewsById/GetNewsByIdController";
 import { GetNewsByIdUseCase } from "./GetNewsById/GetNewsByIdUseCase";
 
-const newsRepository = new InMemoryNewsRepository()
-
+const newsRepository = new PrismaNewsRepository()
 
 /*createNews*/
 const verifyCreatePermissions = new VerifyRolePermissionsUseCase(new CreateNewsPermissions(), getRoleUseCase)

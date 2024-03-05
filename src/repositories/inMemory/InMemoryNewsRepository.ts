@@ -7,8 +7,8 @@ export class InMemoryNewsRepository implements INewsRepository{
         return this.news 
     }
     
-    async findNewsById(id: number): Promise<INews | undefined> {
-        const newsData = this.news.find(news => news.id == id) || undefined
+    async findNewsById(id: number): Promise<INews | null> {
+        const newsData = this.news.find(news => news.id == id) || null
         return newsData
     }
     

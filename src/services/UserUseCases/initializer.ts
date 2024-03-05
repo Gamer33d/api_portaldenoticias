@@ -15,8 +15,9 @@ import { EditUserUseCase } from "./EditUser/EditUserUseCase"
 import { UserLoginController } from "./UserLogin/UserLoginController"
 import { UserLoginUseCase } from "./UserLogin/UserLoginUseCase"
 import { DeleteUserPermissions, EditUserPermissions, VerifyRolePermissionsUseCase } from "../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase"
+import { PrismaUserRepository } from "../../repositories/prisma/PrismaUserRepository"
 
-const userRepository = new InMemoryUserRepository()
+let userRepository = new PrismaUserRepository()
 
 /*createUser*/
 const createUserUseCase = new CreateUserUseCase(userRepository)
@@ -45,4 +46,4 @@ const verifyDeleteRolePermission = new VerifyRolePermissionsUseCase(new DeleteUs
 const deleteUserUseCase = new DeleteUserUseCase(userRepository, verifyDeleteRolePermission)
 const deleteUserController = new DeleteUserController(deleteUserUseCase)
 
-export { createUserController, userLoginController, editUserController, getAllUsersController, getUserByEmailController, deleteUserController }
+export { userRepository, createUserController, userLoginController, editUserController, getAllUsersController, getUserByEmailController, deleteUserController }

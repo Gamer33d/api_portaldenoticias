@@ -10,7 +10,7 @@ export class GetUserByEmailController {
         const { email } = req.params
         try {
             if(!email){
-                throw new Error('the body field email is missing.')
+                throw new Error('the param email is missing.')
             }
 
             const userData = await this.getUserByEmailUseCase.execute(email)

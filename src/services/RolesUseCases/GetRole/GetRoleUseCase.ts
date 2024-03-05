@@ -5,7 +5,7 @@ export class GetRoleUseCase {
         private rolesRepository: IRolesRepository
     ){}
     
-    async execute(roleId: number): Promise<IRole | undefined>{
+    async execute(roleId: number): Promise<IRole | null>{
         if(typeof roleId != "number"){
             roleId = Number(roleId)
         }

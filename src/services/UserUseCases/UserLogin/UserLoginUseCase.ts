@@ -28,6 +28,7 @@ export class UserLoginUseCase{
             email: userDataOfDatabase.email,
             roleId: userDataOfDatabase.roleId,
             banned: userDataOfDatabase.banned,
+            avatarUrl: userDataOfDatabase.avatarUrl
             
         }
         const alg = 'HS256'

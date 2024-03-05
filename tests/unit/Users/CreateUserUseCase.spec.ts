@@ -1,7 +1,6 @@
+import { CreateUserUseCase } from '../../../src/services/UserUseCases/CreateUser/CreateUserUseCase'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
 import { describe, it, expect } from 'vitest'
-import { CreateUserUseCase } from './CreateUserUseCase'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-
 describe('create a user', () => {
     it('should to be able create a user', async () => {
         const createUserUseCase = new CreateUserUseCase(new InMemoryUserRepository())
@@ -78,7 +77,8 @@ describe('create a user', () => {
             name: "adminFake",
             email: "dsadasd@g.com",
             banned: false,
-            roleId: 2
+            roleId: 2,
+            avatarUrl: null
         })
 
         expect(resultPromise).rejects.toThrow()

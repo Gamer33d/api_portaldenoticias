@@ -17,13 +17,14 @@ export interface IEditUserRequestDTO {
 
 
 export interface IUser {
-    avatarUrl?: string;
+    avatarUrl?: string | null;
     id: string;
     name: string;
     email: string;
     password?: string;
-    roleId?: number;
+    roleId?: number | null;
     banned: boolean;
+    News?: []
 }
 
 
@@ -36,8 +37,8 @@ export interface IUserLoginDTO {
 export interface IUserRepository {
     getAllUsers(): Promise<IUser[]>
     createUser(userData: ICreateUserRequestDTO): Promise<IUser>
-    findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | undefined>
-    findUserById(id: string): Promise<IUser | undefined>
+    findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | null>
+    findUserById(id: string): Promise<IUser | null>
     editUser(user: IEditUserRequestDTO, id: string): Promise<IUser>
     deleteUserById(id: string): Promise<boolean>
 }

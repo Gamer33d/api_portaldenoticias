@@ -5,5 +5,5 @@ export interface IRole{
 }
 
 export interface IRolesRepository {
-    getRoleById(id: number): Promise<IRole | undefined>
+    getRoleById(id: number): Promise<IRole | null>
 }

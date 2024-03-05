@@ -17,8 +17,8 @@ export class InMemoryUserRepository implements IUserRepository{
             name,
             email,
             password,
-            roleId,
-            avatarUrl,
+            roleId: roleId??null,
+            avatarUrl: avatarUrl??null,
             banned: isUserBanned
         }
 
@@ -27,14 +27,14 @@ export class InMemoryUserRepository implements IUserRepository{
 
     }
     
-    async findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | undefined> {
-        const user = this.users.find(user => user.email == email || user.name == name) || undefined
+    async findUserByEmailOrName(email: string | undefined, name: string | undefined): Promise<IUser | null> {
+        const user = this.users.find(user => user.email == email || user.name == name) || null
         return user
         
     }
 
-    async findUserById(id: string): Promise<IUser | undefined> {
-        const user = this.users.find(user => user.id == id) || undefined
+    async findUserById(id: string): Promise<IUser | null> {
+        const user = this.users.find(user => user.id == id) || null
         return user
     }
 

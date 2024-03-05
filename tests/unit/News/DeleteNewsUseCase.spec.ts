@@ -1,11 +1,11 @@
+import { IRole } from '../../../src/entities/Roles'
+import { IUser } from '../../../src/entities/User'
+import { InMemoryNewsRepository } from '../../../src/repositories/inMemory/InMemoryNewsRepository'
+import { InMemoryRolesRepository } from '../../../src/repositories/inMemory/InMemoryRolesRepository'
+import { DeleteNewsUseCase } from '../../../src/services/NewsUseCases/DeleteNews/DeleteNewsUseCase'
+import { GetRoleUseCase } from '../../../src/services/RolesUseCases/GetRole/GetRoleUseCase'
+import { VerifyRolePermissionsUseCase, DeleteNewsPermissions } from '../../../src/services/RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
 import { describe, it, expect } from 'vitest'
-import { InMemoryRolesRepository } from '../../../repositories/inMemory/InMemoryRolesRepository'
-import { GetRoleUseCase } from '../../RolesUseCases/GetRole/GetRoleUseCase'
-import { IRole } from '../../../entities/Roles'
-import { DeleteNewsPermissions, VerifyRolePermissionsUseCase } from '../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
-import { DeleteNewsUseCase } from './DeleteNewsUseCase'
-import { InMemoryNewsRepository } from '../../../repositories/inMemory/InMemoryNewsRepository'
-import { IUser } from '../../../entities/User'
 
 
 describe('edit a news', async () => {

@@ -1,6 +1,6 @@
+import { InMemoryNewsRepository } from '../../../src/repositories/inMemory/InMemoryNewsRepository'
+import { GetNewsByIdUseCase } from '../../../src/services/NewsUseCases/GetNewsById/GetNewsByIdUseCase'
 import { describe, it, expect } from 'vitest'
-import { GetNewsByIdUseCase } from './GetNewsByIdUseCase'
-import { InMemoryNewsRepository } from '../../../repositories/inMemory/InMemoryNewsRepository'
 
 describe('get news by id', async () => {
     it('should be able to get a news by id', async () => {

@@ -1,4 +1,3 @@
-import { IUser } from "./User";
 
 export interface ICreateNewsRequestDTO {
     title: string;
@@ -23,7 +22,7 @@ export interface INews {
 
 export interface INewsRepository {
     getAllNews(): Promise<INews[]>
-    findNewsById(id: number): Promise<INews | undefined>
+    findNewsById(id: number): Promise<INews | null>
     createNews(newsData: ICreateNewsRequestDTO): Promise<INews>
     editNewsById(id: number, editPayload: IEditNewsRequestDTO): Promise<INews>
     deleteNewsById(id: number): Promise<boolean>

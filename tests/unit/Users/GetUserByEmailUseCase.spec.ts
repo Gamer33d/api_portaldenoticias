@@ -1,6 +1,6 @@
-import { it, expect, describe } from 'vitest'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-import { GetUserByEmailUseCase } from './GetUserByEmailUseCase'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { GetUserByEmailUseCase } from '../../../src/services/UserUseCases/GetUserByEmail/GetUserByEmailUseCase'
+import { describe, it, expect } from 'vitest'
 
 describe('get user by id', () => {
     it('should be able to get a user by email', async () => {

@@ -30,6 +30,7 @@ export class CreateNewsUseCase{
         if(isUserNotAllowedToCreateANews ){
             throw new Error('you dont have permission to create a news')
         }
+        
 
         const newsData = this.newsRepository.createNews({
             title,

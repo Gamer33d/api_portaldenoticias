@@ -1,12 +1,13 @@
-import { it, describe, expect} from 'vitest'
-import { CreateNewsUseCase } from './CreateNewsUseCase'
-import { InMemoryNewsRepository } from '../../../repositories/inMemory/InMemoryNewsRepository'
-import { GetRoleUseCase } from '../../RolesUseCases/GetRole/GetRoleUseCase'
-import { InMemoryRolesRepository } from '../../../repositories/inMemory/InMemoryRolesRepository'
-import { IRole } from '../../../entities/Roles'
-import { CreateNewsPermissions, VerifyRolePermissionsUseCase } from '../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-import { ICreateNewsRequestDTO } from '../../../entities/News'
+import { describe, it, expect } from 'vitest'
+import { ICreateNewsRequestDTO } from '../../../src/entities/News'
+import { IRole } from '../../../src/entities/Roles'
+import { InMemoryNewsRepository } from '../../../src/repositories/inMemory/InMemoryNewsRepository'
+import { InMemoryRolesRepository } from '../../../src/repositories/inMemory/InMemoryRolesRepository'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { CreateNewsUseCase } from '../../../src/services/NewsUseCases/CreateNews/CreateNewsUseCase'
+import { GetRoleUseCase } from '../../../src/services/RolesUseCases/GetRole/GetRoleUseCase'
+import { VerifyRolePermissionsUseCase, CreateNewsPermissions } from '../../../src/services/RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
+
 
 describe('create a news', async() => {
     const rolesPreset: IRole[] = [

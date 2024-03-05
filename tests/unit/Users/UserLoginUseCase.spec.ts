@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { UserLoginUseCase } from './UserLoginUseCase'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { UserLoginUseCase } from '../../../src/services/UserUseCases/UserLogin/UserLoginUseCase'
 import bcrypt from 'bcrypt'
+import { describe, it, expect } from 'vitest'
 
 describe('to log in', () => {
     it('should be able to log in', async () => {

@@ -1,11 +1,10 @@
-import { it, describe, expect } from 'vitest'
-import { IRole } from '../../../entities/Roles'
-import { GetRoleUseCase } from '../../RolesUseCases/GetRole/GetRoleUseCase'
-import { InMemoryRolesRepository } from '../../../repositories/inMemory/InMemoryRolesRepository'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
-import { EditUserUseCase } from './EditUserUseCase'
-import { EditUserPermissions, VerifyRolePermissionsUseCase } from '../../RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
-
+import { IRole } from '../../../src/entities/Roles'
+import { InMemoryRolesRepository } from '../../../src/repositories/inMemory/InMemoryRolesRepository'
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { GetRoleUseCase } from '../../../src/services/RolesUseCases/GetRole/GetRoleUseCase'
+import { VerifyRolePermissionsUseCase, EditUserPermissions } from '../../../src/services/RolesUseCases/VerifyRolePermissions/VerifyRolePermissionsUseCase'
+import { EditUserUseCase } from '../../../src/services/UserUseCases/EditUser/EditUserUseCase'
+import { describe, it, expect } from 'vitest'
 describe('edit a user', () => {
     const rolesPreset: IRole[] = [
         {

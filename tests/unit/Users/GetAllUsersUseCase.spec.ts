@@ -1,6 +1,6 @@
+import { InMemoryUserRepository } from '../../../src/repositories/inMemory/InMemoryUserRepository'
+import { GetAllUsersUseCase } from '../../../src/services/UserUseCases/GetAllUsers/GetAllUsersUseCase'
 import { describe, it, expect } from 'vitest'
-import { GetAllUsersUseCase } from './GetAllUsersUseCase'
-import { InMemoryUserRepository } from '../../../repositories/inMemory/InMemoryUserRepository'
 describe('get all users', () => {
     it('should be able to get all users', async () => {
         const userRepository = new InMemoryUserRepository()
